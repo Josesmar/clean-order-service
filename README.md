@@ -10,7 +10,7 @@ Este projeto é um serviço de gerenciamento de pedidos, permitindo a criação,
 
 ## Configuração do Ambiente
 
-1. Clone o repositório:
+Clone o repositório:
    ```bash
    git clone https://github.com/Josesmar/clean-order-service.git
    cd url
@@ -53,17 +53,17 @@ volumes:
 
 ```
 
-3 - Certifique-se de que as dependências estão instaladas:
+## Certifique-se de que as dependências estão instaladas:
 ```bash
 go mod tidy
 ```
 
-4 - Inicie o serviço:
+## Inicie o serviço:
  ```bash
  go run main.go wire_gen.go 
 ```
 
-REST API
+## REST API
 Criar Pedido
 Endpoint: POST /orders
 Body:
@@ -79,7 +79,7 @@ Listar Todos os Pedidos
 Endpoint: GET /orders
 
 
-GraphQL
+## GraphQL
 Acesse o playground em http://localhost:8080/graphql. Exemplo de query:
 
 query {
@@ -91,6 +91,6 @@ query {
   }
 }
 
-gRPC
+## gRPC
 Implemente um cliente gRPC baseado no order.proto disponível no projeto.
 
