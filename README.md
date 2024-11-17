@@ -19,8 +19,10 @@ Este projeto é um serviço de gerenciamento de pedidos, permitindo a criação,
 
    ```bash
 docker-compose up -d
-
+   ```
 Estrutura do docker-compose.yml:
+
+   ```docker
 services:
   mysql:
     image: mysql:5.7
