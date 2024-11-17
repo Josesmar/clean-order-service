@@ -92,5 +92,75 @@ query {
 }
 
 ## gRPC
-Implemente um cliente gRPC baseado no order.proto disponível no projeto.
+# Executando gRPC no Order Service
+
+gRPC
+Gere os arquivos gRPC necessários:
+
+ ```bash
+protoc --go_out=. --go-grpc_out=. internal/infra/grpc/protofiles/order.proto
+```
+Certifique-se de que o serviço principal esteja rodando:
+
+ ```bash
+go run main.go
+```
+Teste o serviço com Evans CLI. Certifique-se de que o Evans está instalado no sistema.
+
+Inicie o cliente Evans em modo REPL:
+
+ ```bash
+evans -r repl
+```
+Mostre os pacotes disponíveis:
+
+ ```bash
+show package
+```
+Selecione o pacote:
+
+ ```bash
+package pb
+```
+Escolha o serviço:
+
+ ```bash
+service OrderService
+```
+Faça uma chamada para criar um pedido:
+
+ ```bash
+call CreateOrder
+```
+Insira os dados quando solicitado:
+
+```json
+{
+  "id": "order_id",
+  "price": 100.0,
+  "tax": 10.0
+}
+```
+Para consultar um pedido por ID:
+
+ ```bash
+call GetOrder
+```
+Insira os dados quando solicitado:
+
+```json
+{
+  "id": "order_id"
+}
+```
+Para listar todos os pedidos:
+
+ ```bash
+call ListOrders
+```
+Insira os dados quando solicitado:
+
+json
+{}
+
 
