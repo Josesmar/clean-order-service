@@ -12,6 +12,6 @@ Este projeto é um serviço de gerenciamento de pedidos, permitindo a criação,
 
 1. Clone o repositório:
    ```bash
-   git clone [https://github.com/suapropria/url.git](https://github.com/Josesmar/clean-order-service.git)
+   git clone https://github.com/Josesmar/clean-order-service.git
    cd url
 
