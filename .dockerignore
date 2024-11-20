@@ -1,0 +1,7 @@
+# Ignorar arquivos locais desnecessários
+.dockerignore
+.git
+.gitignore
+node_modules
+vendor
+*.log
