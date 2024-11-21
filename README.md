@@ -9,6 +9,23 @@ Este projeto é um serviço de gerenciamento de pedidos, permitindo a criação,
 - **Go** versão 1.20 ou superior.
 - **Ferramentas adicionais**: gqlgen e protoc (para geração de código).
 
+## Ports
+
+| Serviço      | Descrição                     | Porta  |
+|--------------|-------------------------------|--------|
+| **Ordersystem** | Servidor Web (API REST)       | `8000` |
+| **Ordersystem** | Servidor gRPC                | `50051` |
+| **Ordersystem** | Servidor GraphQL             | `8080` |
+
+### Observações
+
+- **Servidor Web (API REST)**: A API principal do sistema está disponível na porta `8000`.
+- **Servidor gRPC**: A comunicação baseada em gRPC opera na porta `50051`.
+- **Servidor GraphQL**: O endpoint GraphQL está acessível na porta `8080`.
+
+> Certifique-se de verificar as configurações no `docker-compose.yml` caso altere alguma porta.
+
+
 ## Configuração do Ambiente
 
 1. Clone o repositório:
@@ -20,37 +37,6 @@ Este projeto é um serviço de gerenciamento de pedidos, permitindo a criação,
 2. Inicie os serviços auxiliares com o Docker Compose:
    ```bash
    docker-compose up -d
-   ```
-
-   Estrutura do docker-compose.yml:
-   ```yaml
-   services:
-     mysql:
-       image: mysql:5.7
-       container_name: mysql
-       restart: always
-       environment:
-         MYSQL_ROOT_PASSWORD: root
-         MYSQL_DATABASE: orders
-         MYSQL_PASSWORD: root
-       ports:
-         - 3306:3306
-       volumes:
-         - mysql_data:/var/lib/mysql
-
-     rabbitmq:
-       image: rabbitmq:3-management
-       container_name: rabbitmq
-       restart: always
-       ports:
-         - 5672:5672
-         - 15672:15672
-       environment:
-         RABBITMQ_DEFAULT_USER: guest
-         RABBITMQ_DEFAULT_PASS: guest
-
-   volumes:
-     mysql_data:
    ```
 
 3. Certifique-se de que as dependências estão instaladas:
