@@ -2,6 +2,7 @@ colima stop
 colima start --mount /Users/josessantos/Documents/go-expert/curso-go/20-clean-arch/.docker:/Users/josessantos/Documents/go-expert/curso-go/20-clean-arch/.docker
 colima list
 
+<<<<<<< HEAD
 docker stop $(docker ps -aq)
 docker rm $(docker ps -aq)
 docker rmi $(docker images -q)
@@ -13,11 +14,16 @@ docker system prune -a --volumes
 
 docker-compose down -v   # Remove containers e volumes
 docker-compose up --build # Reconstrua e inicie os containers novamente
+=======
+docker-compose down -v
+docker-compose up -d
+>>>>>>> origin/master
 docker run --name mysql-test -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
 docker exec -it mysql-test bash
 docker-compose up -d
 docker logs mysql
 
+<<<<<<< HEAD
 
 == container
 #remover
@@ -26,6 +32,8 @@ docker stop ordersystem
 
 
 
+=======
+>>>>>>> origin/master
 === GRPC
 atualizar o arquivo:
 protoc --go_out=. --go-grpc_out=. internal/infra/grpc/protofiles/order.proto
@@ -42,6 +50,9 @@ gqlgen generate
 
 === wire
 executar o comando wire para gerar o arquivo wire_gen.go
+<<<<<<< HEAD
 
 == Mysql
 docker exec -it mysql mysql -uroot -p
+=======
+>>>>>>> origin/master
