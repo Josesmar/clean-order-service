@@ -11,8 +11,8 @@ docker volume prune
 docker system prune -a --volumes
 
 
-docker-compose down -v
-docker-compose up -d
+docker-compose down -v   # Remove containers e volumes
+docker-compose up --build # Reconstrua e inicie os containers novamente
 docker run --name mysql-test -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
 docker exec -it mysql-test bash
 docker-compose up -d
@@ -42,3 +42,6 @@ gqlgen generate
 
 === wire
 executar o comando wire para gerar o arquivo wire_gen.go
+
+== Mysql
+docker exec -it mysql mysql -uroot -p

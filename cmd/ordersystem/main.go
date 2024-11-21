@@ -3,9 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net"
 	"net/http"
-	"os/exec"
+	"time"
 
 	graphql_handler "github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -83,35 +84,22 @@ func main() {
 }
 
 func getRabbitMQChannel() *amqp.Channel {
-	// Espera o RabbitMQ ficar disponível
-	cmd := exec.Command("/usr/local/bin/wait-for-it.sh", "rabbitmq:5672", "--", "echo", "RabbitMQ is ready!")
-	err := cmd.Run()
-	if err != nil {
-		panic(fmt.Sprintf("RabbitMQ not ready: %v", err))
+	var ch *amqp.Channel
+
+	for i := 0; i < 10; i++ {
+		conn, err := amqp.Dial("amqp://guest:guest@rabbitmq:5672/")
+		if err == nil {
+			ch, err = conn.Channel()
+			if err == nil {
+				log.Println("Conectado ao RabbitMQ e canal aberto")
+				return ch
+			}
+			log.Printf("Falha ao abrir canal: %v\n", err)
+		} else {
+			log.Printf("Tentativa %d: RabbitMQ não disponível, tentando novamente...\n", i+1)
+		}
+		time.Sleep(5 * time.Second)
 	}
 
-	// Após garantir que o RabbitMQ está pronto, tenta conectar
-	conn, err := amqp.Dial("amqp://guest:guest@rabbitmq:5672/")
-	if err != nil {
-		panic(fmt.Sprintf("Failed to connect to RabbitMQ: %v", err))
-	}
-
-	ch, err := conn.Channel()
-	if err != nil {
-		panic(fmt.Sprintf("Failed to open a channel: %v", err))
-	}
-
-	return ch
+	panic(fmt.Sprintf("Falha ao conectar ao RabbitMQ após 10 tentativas"))
 }
-
-// func getRabbitMQChannel() *amqp.Channel {
-// 	conn, err := amqp.Dial("amqp://guest:guest@rabbitmq:5672/")
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	ch, err := conn.Channel()
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	return ch
-// }
