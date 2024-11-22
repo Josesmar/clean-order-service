@@ -1,6 +1,9 @@
 services:
   mysql:
     image: mysql:5.7
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1    
     container_name: mysql
     restart: always
     environment:
