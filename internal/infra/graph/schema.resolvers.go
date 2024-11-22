@@ -6,6 +6,7 @@ package graph
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"github.com/josesmar/20-clean-arch/internal/infra/graph/model"
@@ -39,6 +40,10 @@ func (r *queryResolver) GetOrder(ctx context.Context, id string) (*model.Order, 
 		return nil, err
 	}
 	log.Println("Pedido encontrado:", order) // Log de sucesso
+
+	if order == nil {
+		return &model.Order{}, errors.New("register not found")
+	}
 	return &model.Order{
 		ID:         order.ID,
 		Price:      float64(order.Price),
