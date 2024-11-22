@@ -2,7 +2,7 @@ package web
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -53,18 +53,25 @@ func (h *WebOrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 func (h *WebOrderHandler) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
-	fmt.Printf("Order ID: %s\n", id)
 
 	if id == "" {
 		http.Error(w, "Missing id parameter", http.StatusBadRequest)
 		return
 	}
-	w.Write([]byte(fmt.Sprintf("Order ID: %s", id)))
 
 	getOrder := usecase.NewGetOrderUseCase(h.OrderRepository)
+
+	// Execução do caso de uso
 	output, err := getOrder.Execute(id)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
+		log.Printf("Error retrieving order: %v", err)
+		http.Error(w, "Order not found", http.StatusNotFound)
+		return
+	}
+
+	// Verificação de retorno nulo ou ID vazio
+	if output == nil || len(output.ID) == 0 {
+		http.Error(w, "Order not found", http.StatusNotFound)
 		return
 	}
 
@@ -72,7 +79,8 @@ func (h *WebOrderHandler) Get(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(output)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
 	}
 }
 

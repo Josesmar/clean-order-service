@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"fmt"
+
 	"github.com/josesmar/20-clean-arch/internal/entity"
 )
 
@@ -15,11 +17,12 @@ func NewGetOrderUseCase(orderRepository entity.OrderRepositoryInterface) *GetOrd
 }
 
 func (g *GetOrderUseCase) Execute(id string) (*entity.Order, error) {
-	// if g.OrderRepository == nil {
-	// 	return nil, fmt.Errorf("OrderRepository is nil")
-	// }
 
 	order, err := g.OrderRepository.FindByID(id)
+	if order == nil {
+		return nil, fmt.Errorf("order with ID %s not found", id)
+	}
+
 	if err != nil {
 		return nil, err
 	}
